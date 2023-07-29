@@ -26,6 +26,8 @@ jobs:
         name: New Tag
         # run: echo ${{ steps.version.outputs.version }}
         run: gh release create ${{ steps.version.outputs.version }} --target ${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ github.token }}
       # -
       #   name: Build and Push
       #   uses: docker/build-push-action@v4
