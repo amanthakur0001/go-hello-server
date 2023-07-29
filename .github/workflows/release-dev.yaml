@@ -26,7 +26,7 @@ jobs:
           # namespace: development
       -
         name: ECHO
-        run: echo ${{ steps.version.outputs.version }}--${{ steps.version.outputs.version_tag }}
+        run: echo ${{ steps.version.outputs.version }}-${{ steps.version.outputs.version_tag }}
       -
         name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
