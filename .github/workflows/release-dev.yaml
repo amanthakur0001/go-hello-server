@@ -21,12 +21,12 @@ jobs:
           tag_prefix: "v"
           major_pattern: "[MAJOR-RELEASE]"
           minor_pattern: "[MINOR-RELEASE]"
-          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          version_format: "v${major}.${minor}.${patch}-prerelease${increment}"
           # namespace: development
       -
         name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
-        run: gh release create ${{ steps.version.outputs.version_tag }} --target ${{ github.sha }}
+        run: gh release create ${{ steps.version.outputs.version }} --target ${{ github.sha }}
         env:
           GH_TOKEN: ${{ github.token }}
       # -
