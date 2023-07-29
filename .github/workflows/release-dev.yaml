@@ -22,7 +22,7 @@ jobs:
           major_pattern: "[MAJOR-RELEASE]"
           minor_pattern: "[MINOR-RELEASE]"
           version_format: "${major}.${minor}.${patch}-prerelease${increment}"
-          namespace: development
+          # namespace: development
       -
         name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
