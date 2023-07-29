@@ -23,9 +23,9 @@ jobs:
           minor_pattern: "[MINOR-RELEASE]"
           namespace: development
       -
-        name: New Tag
+        name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
-        run: gh release create ${{ steps.version.outputs.version }} --target ${{ github.sha }}
+        run: gh release create ${{ steps.version.outputs.version_tag }} --target ${{ github.sha }}
         env:
           GH_TOKEN: ${{ github.token }}
       # -
