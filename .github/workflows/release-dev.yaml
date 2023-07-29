@@ -22,11 +22,11 @@ jobs:
           major_pattern: "[MAJOR-RELEASE]"
           minor_pattern: "[MINOR-RELEASE]"
           search_commit_body: true
-          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          version_format: "${major}.${minor}.${patch}"
           # namespace: development
       -
         name: ECHO
-        run: echo ${{ steps.version.outputs.version }}|${{ steps.version.outputs.version_tag }}
+        run: echo ${{ steps.version.outputs.version }}--${{ steps.version.outputs.version_tag }}
       -
         name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
