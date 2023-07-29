@@ -24,6 +24,9 @@ jobs:
           version_format: "v${major}.${minor}.${patch}-prerelease${increment}"
           # namespace: development
       -
+        name: ECHO
+        run: echo ${{ steps.version.outputs.version }}|${{ steps.version.outputs.version_tag }}
+      -
         name: Create New Tag
         # run: echo ${{ steps.version.outputs.version }}
         run: gh release create ${{ steps.version.outputs.version }} --target ${{ github.sha }} --prerelease
