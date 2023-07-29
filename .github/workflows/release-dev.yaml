@@ -1,0 +1,29 @@
+name: Releasing from Development
+run-name: ${{ github.actor }} is releasing new version from development 🚀
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  Release-Development:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - 
+        name: Hello Server Version
+        id: db-version
+        uses: paulhatch/semantic-version@v5.0.2
+        with:
+          major_pattern: "[MAJOR-RELEASE]"
+          minor_pattern: "[MINOR-RELEASE]"
+          namespace: development
+      # -
+      #   name: Build and Push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: ghcr.io/amanthakur0001/github-actions:${{ github.ref_name }}-${{ github.sha }}
