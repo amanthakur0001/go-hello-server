@@ -9,3 +9,7 @@ import (
 func Hello(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{"msg": "hello"})
 }
+
+func NewHello(c echo.Context) error {
+	return c.JSON(http.StatusOK, map[string]string{"msg": "This is updated hello"})
+}
