@@ -7,6 +7,6 @@ import (
 
 func main() {
 	e := echo.New()
-	e.GET("/", api.Hello)
+	e.GET("/hello", api.Hello)
 	e.Logger.Fatal(e.Start(":8080"))
 }
