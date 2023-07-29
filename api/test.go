@@ -7,5 +7,5 @@ import (
 )
 
 func Test(c echo.Context) error {
-	return c.JSON(http.StatusOK, "Testing new functionality")
+	return c.JSON(http.StatusOK, "Testing new functionality!!")
 }
