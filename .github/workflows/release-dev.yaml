@@ -1,4 +1,4 @@
-name: [DEVELOPMENT RELEASE]
+name: "[DEVELOPMENT RELEASE]"
 run-name: ${{ github.actor }} is releasing new version from development 🚀
 on:
   push:
@@ -21,10 +21,21 @@ jobs:
           tag_prefix: "v"
           major_pattern: "[MAJOR-RELEASE]"
           minor_pattern: "[MINOR-RELEASE]"
-          namespace: development
+          search_commit_body: true
+          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          # namespace: development
       -
         name: ECHO
-        runs: echo ${{ steps.version.outputs.version }}
+        run: echo ${{ steps.version.outputs.version }}-${{ steps.version.outputs.version_tag }}
+      -
+        name: ECHO2
+        run: echo CURRENT_COMMIT-${{ steps.version.outputs.current_commit }}-PREVIOUS_COMMIT-${{ steps.version.outputs.previous_commit }}-PREVIOUS_VERSION-${{ steps.version.outputs.previous_version }}
+      -
+        name: Create New Tag
+        # run: echo ${{ steps.version.outputs.version }}
+        run: gh release create v${{ steps.version.outputs.version }} --target ${{ github.sha }} --prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
       # -
       #   name: Build and Push
       #   uses: docker/build-push-action@v4

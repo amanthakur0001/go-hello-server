@@ -8,5 +8,8 @@ import (
 func main() {
 	e := echo.New()
 	e.GET("/", api.Hello)
+	e.GET("/hello", api.NewHello)
+	e.GET("/health", api.Health)
+	e.GET("/test", api.Test)
 	e.Logger.Fatal(e.Start(":8080"))
 }
