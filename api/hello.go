@@ -11,5 +11,5 @@ func Hello(c echo.Context) error {
 }
 
 func NewHello(c echo.Context) error {
-	return c.JSON(http.StatusOK, map[string]string{"msg": "This is updated hello"})
+	return c.JSON(http.StatusOK, map[string]string{"msg": "This is updated hello!!"})
 }
