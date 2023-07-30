@@ -1,0 +1,44 @@
+name: "[PRODUCTION RELEASE]"
+run-name: ${{ github.actor }} is releasing new version for PRODUCTION 🚀
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  Release-Production:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - 
+        name: Hello Server Version
+        id: version
+        uses: paulhatch/semantic-version@v5.0.2
+        with:
+          tag_prefix: "v"
+          major_pattern: "[MAJOR-RELEASE]"
+          minor_pattern: "[MINOR-RELEASE]"
+          search_commit_body: true
+          version_format: "${major}.${minor}.${patch}"
+          # namespace: development
+      -
+        name: ECHO
+        run: echo ${{ steps.version.outputs.version }}-${{ steps.version.outputs.version_tag }}
+      -
+        name: ECHO2
+        run: echo CURRENT_COMMIT-${{ steps.version.outputs.current_commit }}-PREVIOUS_COMMIT-${{ steps.version.outputs.previous_commit }}-PREVIOUS_VERSION-${{ steps.version.outputs.previous_version }}
+      -
+        name: Create New Tag
+        # run: echo ${{ steps.version.outputs.version }}
+        run: gh release create v${{ steps.version.outputs.version }} --target ${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+      # -
+      #   name: Build and Push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: ghcr.io/amanthakur0001/github-actions:${{ github.ref_name }}-${{ github.sha }}
