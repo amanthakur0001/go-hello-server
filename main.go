@@ -11,5 +11,6 @@ func main() {
 	e.GET("/hello", api.NewHello)
 	e.GET("/health", api.Health)
 	e.GET("/test", api.Test)
+	e.GET("/book", api.GetBooks)
 	e.Logger.Fatal(e.Start(":8080"))
 }
