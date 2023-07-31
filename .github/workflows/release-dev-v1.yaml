@@ -12,6 +12,10 @@ jobs:
 
     steps:
       - 
+        name: Checkout code
+        uses: actions/checkout@v2
+        
+      - 
         name: Get Latest Release Tag
         id: getLatestReleaseTag
         run: |
@@ -20,10 +24,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - 
-        name: Checkout code
-        uses: actions/checkout@v2
-        
       - 
         name: Calculate Major Release Version
         id: bump_major_version
