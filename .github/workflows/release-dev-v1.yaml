@@ -27,7 +27,7 @@ jobs:
       - 
         name: Calculate Release Candidate Version
         id: bump_rc_version
-        if: contains(github.event.pull_request.title, '[RELEASE-CANDIDATE]')
+        if: contains(github.event.pull_request.title, '[RELEASE-CANDIDATE]')  
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
