@@ -25,42 +25,53 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - 
-        name: Calculate Major Release Version
-        id: bump_major_version
-        if: contains(github.event.pull_request.title, '[MAJOR-RELEASE]')
+        name: Calculate Release Candidate Version
+        id: bump_rc_version
+        if: contains(github.event.pull_request.title, '[RELEASE-CANDIDATE]')
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
-          version-fragment: 'major'
+          version-fragment: 'rc'
                     
       - 
-        name: Calculate Minor Release Version
-        id: bump_minor_version
-        if: contains(github.event.pull_request.title, '[MINOR-RELEASE]')
+        name: Calculate Pre-Release Version
+        id: bump_pre_version
+        if: contains(github.event.pull_request.title, '[PRE-RELEASE]')
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
-          version-fragment: 'feature'
+          version-fragment: 'pre'
           
       - 
-        name: Calculate Patch Release Version
-        id: bump_patch_version
-        if: contains(github.event.pull_request.title, '[PATCH]')
+        name: Calculate Beta Release Version
+        id: bump_beta_version
+        if: contains(github.event.pull_request.title, '[BETA-RELEASE]')
         uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
-          version-fragment: 'bug'
+          version-fragment: 'beta'
+      
+      - 
+        name: Calculate Alpha Release Version
+        id: bump_alpha_version
+        if: contains(github.event.pull_request.title, '[ALPHA-RELEASE]')
+        uses: christian-draeger/increment-semantic-version@1.1.0
+        with:
+          current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
+          version-fragment: 'alpha'
 
       -
         name: Set Final Release Version
         id: set_final_version
         run: |
-          if [ ${{ steps.bump_major_version.outputs.next-version }} ]; then
-              echo ::set-output name=final_release_tag::"${{ steps.bump_major_version.outputs.next-version }}"
-          elif [ ${{ steps.bump_minor_version.outputs.next-version }} ]; then
-              echo ::set-output name=final_release_tag::"${{ steps.bump_minor_version.outputs.next-version }}"
-          elif [ ${{ steps.bump_patch_version.outputs.next-version }} ]; then
-              echo ::set-output name=final_release_tag::"${{ steps.bump_patch_version.outputs.next-version }}"
+          if [ ${{ steps.bump_rc_version.outputs.next-version }} ]; then
+              echo "final_release_tag=${{ steps.bump_rc_version.outputs.next-version }}" >> $GITHUB_OUTPUT
+          elif [ ${{ steps.bump_pre_version.outputs.next-version }} ]; then
+              echo "final_release_tag=${{ steps.bump_pre_version.outputs.next-version }}" >> $GITHUB_OUTPUT
+          elif [ ${{ steps.bump_beta_version.outputs.next-version }} ]; then
+              echo "final_release_tag=${{ steps.bump_beta_version.outputs.next-version }}" >> $GITHUB_OUTPUT
+          elif [ ${{ steps.bump_alpha_version.outputs.next-version }} ]; then
+              echo "final_release_tag=${{ steps.bump_alpha_version.outputs.next-version }}" >> $GITHUB_OUTPUT
           fi
       
       -
