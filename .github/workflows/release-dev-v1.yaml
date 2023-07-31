@@ -28,7 +28,7 @@ jobs:
         name: Calculate Major Release Version
         id: bump_major_version
         if: contains(github.event.pull_request.title, '[MAJOR-RELEASE]')
-        uses: christian-draeger/increment-semantic-version@1.0.2
+        uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
           version-fragment: 'major'
@@ -37,7 +37,7 @@ jobs:
         name: Calculate Minor Release Version
         id: bump_minor_version
         if: contains(github.event.pull_request.title, '[MINOR-RELEASE]')
-        uses: christian-draeger/increment-semantic-version@1.0.2
+        uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
           version-fragment: 'feature'
@@ -46,7 +46,7 @@ jobs:
         name: Calculate Patch Release Version
         id: bump_patch_version
         if: contains(github.event.pull_request.title, '[PATCH]')
-        uses: christian-draeger/increment-semantic-version@1.0.2
+        uses: christian-draeger/increment-semantic-version@1.1.0
         with:
           current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
           version-fragment: 'bug'
