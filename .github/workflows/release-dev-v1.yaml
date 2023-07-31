@@ -1,0 +1,77 @@
+name: "[DEVELOPMENT RELEASE V1]"
+run-name: [DEVELOPMENT] release by ${{ github.actor }} 🚀
+on:
+  pull_request:
+    branches: [development]
+    types:
+      - closed
+jobs:
+  Release-Development:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - 
+        name: Get Latest Release Tag
+        id: getLatestReleaseTag
+        run: |
+          latest_release_tag=$(gh release list --limit 1 | awk '{print $1}')
+          echo ::set-output name=latest_release_tag::"$latest_release_tag"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - 
+        name: Checkout code
+        uses: actions/checkout@v2
+        
+      - 
+        name: Calculate Major Release Version
+        id: bump_major_version
+        if: contains(github.event.pull_request.title, '[MAJOR-RELEASE]')
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
+          version-fragment: 'major'
+                    
+      - 
+        name: Calculate Minor Release Version
+        id: bump_minor_version
+        if: contains(github.event.pull_request.title, '[MINOR-RELEASE]')
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
+          version-fragment: 'feature'
+          
+      - 
+        name: Calculate Patch Release Version
+        id: bump_patch_version
+        if: contains(github.event.pull_request.title, '[PATCH]')
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: ${{ steps.getLatestReleaseTag.outputs.latest_release_tag }}
+          version-fragment: 'bug'
+
+      -
+        name: Set Final Release Version
+        id: set_final_version
+        run: |
+          if [ ${{ steps.bump_major_version.outputs.next-version }} ]; then
+              echo ::set-output name=final_release_tag::"[${{ steps.bump_major_version.outputs.next-version }}]"
+          elif [ ${{ steps.bump_minor_version.outputs.next-version }} ]; then
+              echo ::set-output name=final_release_tag::"[${{ steps.bump_minor_version.outputs.next-version }}]"
+          elif [ ${{ steps.bump_patch_version.outputs.next-version }} ]; then
+              echo ::set-output name=final_release_tag::"[${{ steps.bump_patch_version.outputs.next-version }}]"
+          fi
+      
+      -
+        name: Create New Tag & Release
+        # run: echo ${{ steps.version.outputs.version }}
+        run: gh release create v${{ steps.set_final_version.outputs.final_release_tag }} --target ${{ github.sha }} --prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+      # -
+      #   name: Build and Push
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: ghcr.io/amanthakur0001/github-actions:${{ github.ref_name }}-${{ github.sha }}
