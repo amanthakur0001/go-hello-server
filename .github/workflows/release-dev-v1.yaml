@@ -1,5 +1,5 @@
-name: "RELEASE"
-run-name: [DEVELOPMENT] release by ${{ github.actor }} 🚀
+name: "[RELEASE]"
+run-name: DEVELOPMENT release by ${{ github.actor }} 🚀
 on:
   pull_request:
     branches: [development]
