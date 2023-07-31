@@ -1,5 +1,5 @@
 name: "[PRODUCTION RELEASE]"
-run-name: ${{ github.actor }} is releasing new version for PRODUCTION 🚀
+run-name: ${{ github.actor }} is releasing new version for PRODUCTION 🧑🏻‍💻🚀
 on:
   push:
     branches:
