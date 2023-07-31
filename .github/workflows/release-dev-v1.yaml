@@ -1,4 +1,4 @@
-name: "[RELEASE]"
+name: "[DEVELOPMENT RELEASE V1]"
 run-name: DEVELOPMENT release by ${{ github.actor }} 🚀
 on:
   pull_request:
